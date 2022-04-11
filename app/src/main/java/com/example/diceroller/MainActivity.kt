@@ -2,49 +2,50 @@ package com.example.diceroller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
-import kotlin.random.Random
+import android.widget.ImageView
 
 class MainActivity : AppCompatActivity(){
 
-    private lateinit var resultText: TextView
+    private lateinit var diceImage : ImageView
+
+    private lateinit var diceImage2 : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView( R.layout.activity_main )
 
-        resultText = findViewById( R.id.tv_result )
+        diceImage = findViewById( R.id.iv_dice_image )
+
+        diceImage2 = findViewById( R.id.iv_dice_image2 )
 
         val rollButton: Button = findViewById( R.id.btn_roll )
 
-        val countUpButton: Button = findViewById( R.id.btn_count_up)
-
         rollButton.setOnClickListener{ rollDice() }
-
-        countUpButton.setOnClickListener {
-            countUp()
-        }
-
-    }
-
-    private fun countUp() {
-
-        resultText.apply {
-            when(this.text){
-                "Hello World" -> this.text = "1"
-                "6" -> this.text = "6"
-                else -> this.text = ( this.text.toString().toInt() + 1 ).toString()
-            }
-        }
 
     }
 
     private fun rollDice(){
 
-        resultText.text = (1..20).random().toString()
-        //Toast.makeText(this, "Button clicked", Toast.LENGTH_SHORT).show();
+        diceImage.setImageResource( getRandomDiceImage() )
+
+        diceImage2.setImageResource( getRandomDiceImage() )
+
     }
+
+    private fun getRandomDiceImage(): Int {
+
+        val drawableResource = when( (1..6).random() ){
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            else -> R.drawable.dice_6
+        }
+
+        return drawableResource
+    }
+
 }
